@@ -7053,18 +7053,18 @@ function jsonToMatrix(json) {
 async function run() {
   try {
     const action = {
-      query: core.getInput('query'),
+      search: core.getInput('search'),
       date: core.getInput('date'),
       version: core.getInput('version'),
       limit: core.getInput('limit'),
     }
 
-    if (action.query == "") {
-      core.setFailed("The query input is required.")
+    if (action.search == "") {
+      core.setFailed("The search input is required.")
       return
     }
 
-    const data = await getReleaseData(action.query)
+    const data = await getReleaseData(action.search)
 
     // The data is a JSON object that the key is the version and the value is the release date
     // filter data for the version that are release in 2022

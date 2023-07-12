@@ -1,8 +1,8 @@
 name: 'release-matrix-action'
 description: 'GitHub Action to generate matrix using "endoflife-date/release-data" dataset'
 inputs:
-  query:
-    description: 'The search query for release data'
+  search:
+    description: 'The search keyword for release data'
     required: true
   date:
     description: 'Set the filter for the release by date, e.g: 2023-01-01, 2023'

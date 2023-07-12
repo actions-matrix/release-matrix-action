@@ -11,12 +11,12 @@ You can now consume the action by referencing the `main` branch
 ```yaml
 uses: actions-matrix/release-matrix-action@main
 with:
-  query: nginx
+  search: nginx
 ```
 
 ## Inputs
 
-- `query`: The search query for release data
+- `search`: The search keyword for release data
 - `date`: Set the filter for the release by date, e.g: 2023-01-01, 2023
 - `version`: Set the filter for the release by version, e.g: 1.0
 - `limit`: Set the limit for the number of releases to output, default: 3
