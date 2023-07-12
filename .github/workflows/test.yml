@@ -50,3 +50,9 @@ jobs:
         query: nginx
         date: 2022
         version: 1.22
+    outputs:
+      test-1: ${{ steps.test-1.outputs.matrix }}
+      test-2: ${{ steps.test-2.outputs.matrix }}
+      test-3: ${{ steps.test-3.outputs.matrix }}
+      test-4: ${{ steps.test-4.outputs.matrix }}
+      test-5: ${{ steps.test-5.outputs.matrix }}
