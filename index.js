@@ -22,8 +22,6 @@ async function run() {
       limit: core.getInput('limit'),
     }
 
-    console.log(action)
-
     if (action.query == "") {
       core.setFailed("The query input is required.")
     }
