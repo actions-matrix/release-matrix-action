@@ -9,7 +9,7 @@ GitHub Action to generate matrix using ["endoflife-date/release-data"](https://g
 You can now consume the action by referencing the `v1` branch
 
 ```yaml
-name: Test
+name: Build
 
 on:
   push:
@@ -22,6 +22,8 @@ jobs:
     steps:
       - id: release
         uses: actions-matrix/release-matrix-action@v1
+        with:
+          search: "nginx"
     outputs:
       matrix: ${{ steps.release.outputs.matrix }}
 
