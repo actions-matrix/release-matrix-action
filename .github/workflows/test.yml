@@ -61,12 +61,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: test-1
-      run: echo ${{ needs.test.outputs.test-1 }}
+      run: echo '${{ needs.test.outputs.test-1 }}'
     - name: test-2
-      run: echo ${{ needs.test.outputs.test-2 }}
+      run: echo '${{ needs.test.outputs.test-2 }}'
     - name: test-3
-      run: echo ${{ needs.test.outputs.test-3 }}
+      run: echo '${{ needs.test.outputs.test-3 }}'
     - name: test-4
-      run: echo ${{ needs.test.outputs.test-4 }}
+      run: echo '${{ needs.test.outputs.test-4 }}'
     - name: test-5
-      run: echo ${{ needs.test.outputs.test-5 }}
+      run: echo '${{ needs.test.outputs.test-5 }}'
