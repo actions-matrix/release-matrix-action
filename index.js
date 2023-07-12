@@ -24,6 +24,7 @@ async function run() {
 
     if (action.query == "") {
       core.setFailed("The query input is required.")
+      return
     }
 
     const data = await getReleaseData(action.query)
