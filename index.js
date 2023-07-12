@@ -12,6 +12,10 @@ async function getReleaseData(query) {
     .then(res => res.json())
 }
 
+function jsonToMatrix(json) {
+  return JSON.stringify(JSON.stringify(json))
+}
+
 // most @actions toolkit packages have async methods
 async function run() {
   try {
@@ -58,9 +62,9 @@ async function run() {
     })
 
 
-    core.setOutput("matrix", JSON.stringify(matrix));
-    core.setOutput("versions", JSON.stringify(versions))
-    core.setOutput("release_dates", JSON.stringify(release_dates))
+    core.setOutput("matrix", jsonToMatrix(matrix));
+    core.setOutput("versions", jsonToMatrix(versions))
+    core.setOutput("release_dates", jsonToMatrix(release_dates))
   } catch (error) {
     core.setFailed(error.message);
   }
