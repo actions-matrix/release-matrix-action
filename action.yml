@@ -1,5 +1,5 @@
-name: 'Wait'
-description: 'Wait a designated number of milliseconds'
+name: 'release-matrix-action'
+description: 'GitHub Action to generate matrix using "endoflife-date/release-data" dataset'
 inputs:
   query:
     description: 'The search query for release data'
