@@ -7046,7 +7046,7 @@ async function getReleaseData(query) {
 }
 
 function jsonToMatrix(json) {
-  return JSON.stringify(JSON.stringify(json))
+  return JSON.stringify(json)
 }
 
 // most @actions toolkit packages have async methods
@@ -7095,7 +7095,7 @@ async function run() {
     })
 
     const matrix = { versions, release_dates }
-    
+
     core.setOutput("matrix", jsonToMatrix(matrix));
     core.setOutput("versions", jsonToMatrix(versions))
     core.setOutput("release_dates", jsonToMatrix(release_dates))
