@@ -17,10 +17,6 @@ inputs:
 outputs:
   matrix:
     description: 'The release matrix data'
-  versions:
-    description: 'The release versions'
-  release_dates:
-    description: 'The release dates'
 runs:
   using: 'node16'
   main: 'dist/index.js'
