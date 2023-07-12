@@ -43,7 +43,8 @@ async function run() {
       .sort(([a], [b]) => compareVersions(a, b))
 
     if (action.limit === 0) {
-      throw new Error("Limit must be greater than 0")
+      core.setFailed("The limit input cannot be zero.")
+      return
     } else if (action.limit > 0) {
       releases = releases.reverse().splice(0, 5).reverse()
     }
