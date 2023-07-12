@@ -1,5 +1,6 @@
 const core = require('@actions/core');
 const fetch = require('node-fetch');
+const { compareVersions } = require('compare-versions');
 
 const config = {
   release_data: "endoflife-date/release-data",
@@ -21,6 +22,8 @@ async function run() {
       limit: core.getInput('limit'),
     }
 
+    console.log(action)
+
     if (action.query == "") {
       core.setFailed("The query input is required.")
     }
@@ -40,7 +43,7 @@ async function run() {
       })
       .sort(([a], [b]) => compareVersions(a, b))
 
-    if (action.limit == 0) {
+    if (action.limit === 0) {
       throw new Error("Limit must be greater than 0")
     } else if (action.limit > 0) {
       releases = releases.reverse().splice(0, 5).reverse()
@@ -50,7 +53,7 @@ async function run() {
     const release_dates = []
     const matrix = releases.map(([ver, release_date]) => {
       versions.push(ver)
-      release_date.push(release_date)
+      release_dates.push(release_date)
       return { version: ver, release_date }
     })
 
