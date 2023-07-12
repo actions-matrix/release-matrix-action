@@ -53,10 +53,10 @@ async function run() {
       releases = releases.reverse().splice(0, 5).reverse()
     }
 
-    const matrix = { versions: [] }
+    const matrix = { version: [] }
 
     releases.forEach(([ver]) => {
-      matrix.versions.push(ver)
+      matrix.version.push(ver)
     })
 
     core.setOutput("matrix", jsonToMatrix(matrix));
