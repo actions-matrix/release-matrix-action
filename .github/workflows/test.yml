@@ -20,6 +20,28 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    - uses: ./
+    - name: query=nginx
+      uses: ./
       with:
-        milliseconds: 1000
+        query: nginx
+    - name: query=nginx, limit=10
+      uses: ./
+      with:
+        query: nginx
+        limit: 10
+    - name: query=nginx, date=2022
+      uses: ./
+      with:
+        query: nginx
+        date: 2022
+    - name: query=nginx, version=1.22
+      uses: ./
+      with:
+        query: nginx
+        version: 1.22
+    - name: query=nginx, date=2022, version=1.22
+      uses: ./
+      with:
+        query: nginx
+        date: 2022
+        version: 1.22
