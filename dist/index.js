@@ -1726,6 +1726,10 @@ function checkBypass(reqUrl) {
     if (!reqUrl.hostname) {
         return false;
     }
+    const reqHost = reqUrl.hostname;
+    if (isLoopbackAddress(reqHost)) {
+        return true;
+    }
     const noProxy = process.env['no_proxy'] || process.env['NO_PROXY'] || '';
     if (!noProxy) {
         return false;
@@ -1751,13 +1755,24 @@ function checkBypass(reqUrl) {
         .split(',')
         .map(x => x.trim().toUpperCase())
         .filter(x => x)) {
-        if (upperReqHosts.some(x => x === upperNoProxyItem)) {
+        if (upperNoProxyItem === '*' ||
+            upperReqHosts.some(x => x === upperNoProxyItem ||
+                x.endsWith(`.${upperNoProxyItem}`) ||
+                (upperNoProxyItem.startsWith('.') &&
+                    x.endsWith(`${upperNoProxyItem}`)))) {
             return true;
         }
     }
     return false;
 }
 exports.checkBypass = checkBypass;
+function isLoopbackAddress(host) {
+    const hostLower = host.toLowerCase();
+    return (hostLower === 'localhost' ||
+        hostLower.startsWith('127.') ||
+        hostLower.startsWith('[::1]') ||
+        hostLower.startsWith('[0:0:0:0:0:0:0:1]'));
+}
 //# sourceMappingURL=proxy.js.map
 
 /***/ }),
@@ -2837,24 +2852,69 @@ var __webpack_exports__ = {};
 const core = __nccwpck_require__(186);
 const wait = __nccwpck_require__(258);
 
+const config = {
+  release_data: "endoflife-date/release-data",
+  tag: "master"
+}
+
+async function getReleaseData(query) {
+  return fetch(`https://raw.githubusercontent.com/${config.release_data}/${config.tag}/releases/${query}.json`)
+    .then(res => res.json())
+}
 
 // most @actions toolkit packages have async methods
 async function run() {
   try {
-    const ms = core.getInput('milliseconds');
-    core.info(`Waiting ${ms} milliseconds ...`);
+    const action = {
+      query: core.getInput('query'),
+      date: core.getInput('date'),
+      version: core.getInput('version'),
+      limit: core.getInput('limit'),
+    }
 
-    core.debug((new Date()).toTimeString()); // debug is only output if you set the secret `ACTIONS_RUNNER_DEBUG` to true
-    await wait(parseInt(ms));
-    core.info((new Date()).toTimeString());
+    if (action.query == "") {
+      core.setFailed("The query input is required.")
+    }
 
-    core.setOutput('time', new Date().toTimeString());
+    const data = await getReleaseData(action.query)
+
+    // The data is a JSON object that the key is the version and the value is the release date
+    // filter data for the version that are release in 2022
+    let releases = Object.entries(data)
+      .filter(([, release_date]) => {
+        if (!action.date) return true
+        return new Date(release_date) >= new Date(action.date)
+      })
+      .filter(([ver]) => {
+        if (!action.version) return true
+        return ver.startsWith(action.version)
+      })
+      .sort(([a], [b]) => compareVersions(a, b))
+
+    if (action.limit == 0) {
+      throw new Error("Limit must be greater than 0")
+    } else if (action.limit > 0) {
+      releases = releases.reverse().splice(0, 5).reverse()
+    }
+
+    const versions = []
+    const release_dates = []
+    const matrix = releases.map(([ver, release_date]) => {
+      versions.push(ver)
+      release_date.push(release_date)
+      return { version: ver, release_date }
+    })
+
+
+    core.setOutput("matrix", JSON.stringify(matrix));
+    core.setOutput("versions", JSON.stringify(versions))
+    core.setOutput("release_dates", JSON.stringify(release_dates))
   } catch (error) {
     core.setFailed(error.message);
   }
 }
 
-run();
+run()
 
 })();
 

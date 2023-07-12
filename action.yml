@@ -1,13 +1,26 @@
 name: 'Wait'
 description: 'Wait a designated number of milliseconds'
 inputs:
-  milliseconds:  # id of input
-    description: 'number of milliseconds to wait'
+  query:
+    description: 'The search query for release data'
     required: true
-    default: '1000'
+  date:
+    description: 'Set the filter for the release by date, e.g: 2023-01-01, 2023'
+    required: false
+  version:
+    description: 'Set the filter for the release by version, e.g: 1.0'
+    required: false
+  limit:
+    description: 'Set the limit for the number of releases to output, default: 3'
+    required: false
+    default: 3
 outputs:
-  time: # output will be available to future steps
-    description: 'The current time after waiting'
+  matrix:
+    description: 'The release matrix data'
+  versions:
+    description: 'The release versions'
+  release_dates:
+    description: 'The release dates'
 runs:
   using: 'node16'
   main: 'dist/index.js'
