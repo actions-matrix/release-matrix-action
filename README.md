@@ -27,5 +27,13 @@ with:
 - `versions`: The release versions
 - `release_dates`: The release dates
 
+**Example**
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/actions-matrix/release-matrix-action/assets/4363857/fc5b4255-d1f4-4334-b2e3-bbb3274bf58a">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/actions-matrix/release-matrix-action/assets/4363857/b1fcd735-aad5-420e-a907-fe2a6e255cae">
+  <img alt="Screenshot" src="https://github.com/actions-matrix/release-matrix-action/assets/4363857/b1fcd735-aad5-420e-a907-fe2a6e255cae">
+</picture>
+
 ## License
 Licensed under the [MIT License](./LICENSE).
