@@ -21,25 +21,30 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: query=nginx
+      id: test-1
       uses: ./
       with:
         query: nginx
     - name: query=nginx, limit=10
+      id: test-2
       uses: ./
       with:
         query: nginx
         limit: 10
     - name: query=nginx, date=2022
+      id: test-3
       uses: ./
       with:
         query: nginx
         date: 2022
     - name: query=nginx, version=1.22
+      id: test-4
       uses: ./
       with:
         query: nginx
         version: 1.22
     - name: query=nginx, date=2022, version=1.22
+      id: test-5
       uses: ./
       with:
         query: nginx
