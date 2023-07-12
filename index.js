@@ -53,19 +53,14 @@ async function run() {
       releases = releases.reverse().splice(0, 5).reverse()
     }
 
-    const versions = []
-    const release_dates = []
+    const matrix = { versions: [] }
 
-    releases.forEach(([ver, release_date]) => {
-      versions.push(ver)
-      release_dates.push(release_date)
+    releases.forEach(([ver]) => {
+      matrix.versions.push(ver)
     })
 
-    const matrix = { versions, release_dates }
-
     core.setOutput("matrix", jsonToMatrix(matrix));
-    core.setOutput("versions", jsonToMatrix(versions))
-    core.setOutput("release_dates", jsonToMatrix(release_dates))
+
   } catch (error) {
     core.setFailed(error.message);
   }
