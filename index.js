@@ -55,13 +55,14 @@ async function run() {
 
     const versions = []
     const release_dates = []
-    const matrix = releases.map(([ver, release_date]) => {
+
+    releases.forEach(([ver, release_date]) => {
       versions.push(ver)
       release_dates.push(release_date)
-      return { version: ver, release_date }
     })
 
-
+    const matrix = { versions, release_dates }
+    
     core.setOutput("matrix", jsonToMatrix(matrix));
     core.setOutput("versions", jsonToMatrix(versions))
     core.setOutput("release_dates", jsonToMatrix(release_dates))
