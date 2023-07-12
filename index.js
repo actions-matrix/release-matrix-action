@@ -1,5 +1,5 @@
 const core = require('@actions/core');
-const wait = require('./wait');
+const fetch = require('node-fetch');
 
 const config = {
   release_data: "endoflife-date/release-data",
