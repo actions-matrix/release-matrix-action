@@ -7045,8 +7045,9 @@ const defaults = {
 }
 
 async function getReleaseData(query) {
-  return fetch(`https://raw.githubusercontent.com/${config.release_data}/${config.tag}/releases/${query}.json`)
-    .then(res => res.json())
+  const res = await fetch(`https://raw.githubusercontent.com/${config.release_data}/${config.tag}/releases/${query}.json`)
+  const data = await res.json()
+  return data
 }
 
 function jsonToMatrix(json) {
