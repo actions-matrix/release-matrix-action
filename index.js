@@ -33,17 +33,18 @@ async function run() {
 
     const data = await getReleaseData(inputs.search)
 
+    if (inputs.date) core.info(`Filter releases by date: ${inputs.date}`)
+    if (inputs.version) core.info(`Filter releases by version: ${inputs.version}`)
+
     // The data is a JSON object that the key is the version and the value is the release date
     // filter data for the version that are release in 2022
     let releases = Object.entries(data)
       .filter(([, release_date]) => {
         if (!inputs.date) return true
-        core.info(`Filter releases by date: ${inputs.date}`)
         return new Date(release_date) >= new Date(inputs.date)
       })
       .filter(([ver]) => {
         if (!inputs.version) return true
-        core.info(`Filter releases by version: ${inputs.version}`)
         return ver.startsWith(inputs.version)
       })
       .sort(([a], [b]) => compareVersions(a, b))
