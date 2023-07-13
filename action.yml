@@ -16,7 +16,6 @@ inputs:
   limit:
     description: 'Set the limit for the number of releases to output, default: 3'
     required: false
-    default: "3"
 outputs:
   matrix:
     description: 'The release matrix data'

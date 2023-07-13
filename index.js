@@ -28,7 +28,7 @@ async function run() {
       search: core.getInput('search'),
       date: core.getInput('date'),
       version: core.getInput('version'),
-      limit: core.getInput('limit') || defaults.limit,
+      limit: core.getInput('limit'),
     }
 
     if (inputs.search == "") {
@@ -55,6 +55,13 @@ async function run() {
 
     if (inputs.limit === 0) {
       throw new Error("The limit input cannot be zero.")
+    }
+
+    if (!inputs.date || !inputs.version) {
+      inputs.limit = defaults.limit
+      core.info("The limit input is set to default.")
+    } else {
+      core.info("The limit input is set to custom.")
     }
 
     inputs.limit = parseInt(inputs.limit)
