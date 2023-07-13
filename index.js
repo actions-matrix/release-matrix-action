@@ -7,6 +7,10 @@ const config = {
   tag: "master"
 }
 
+const defaults = {
+  limit: "3"
+}
+
 async function getReleaseData(query) {
   return fetch(`https://raw.githubusercontent.com/${config.release_data}/${config.tag}/releases/${query}.json`)
     .then(res => res.json())
@@ -23,7 +27,7 @@ async function run() {
       search: core.getInput('search'),
       date: core.getInput('date'),
       version: core.getInput('version'),
-      limit: core.getInput('limit'),
+      limit: core.getInput('limit') || defaults.limit,
     }
 
     if (inputs.search == "") {
@@ -32,8 +36,8 @@ async function run() {
 
     const data = await getReleaseData(inputs.search)
 
-    if (inputs.date) core.info(`Filter releases by date: ${inputs.date}`)
-    if (inputs.version) core.info(`Filter releases by version: ${inputs.version}`)
+    if (inputs.date) core.info(`Set releases filter by date: ${inputs.date}`)
+    if (inputs.version) core.info(`Set releases filter by version: ${inputs.version}`)
 
     // The data is a JSON object that the key is the version and the value is the release date
     // filter data for the version that are release in 2022
@@ -50,10 +54,11 @@ async function run() {
 
     if (inputs.limit === 0) {
       throw new Error("The limit input cannot be zero.")
-    } else if (inputs.limit > 0) {
-      core.info(`Limit releases by: ${inputs.limit}`)
-      releases = releases.reverse().splice(0, 5).reverse()
     }
+
+    inputs.limit = parseInt(inputs.limit)
+    core.info(`Set releases limit by: ${inputs.limit}`)
+    releases = releases.reverse().splice(0, inputs.limit).reverse()
 
     const matrix = { version: [] }
 

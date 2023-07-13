@@ -12,7 +12,7 @@ test('test query=nginx', () => {
 
 test('test query=nginx, limit=10', () => {
   process.env['INPUT_SEARCH'] = 'nginx';
-  process.env['INPUT_LIMIT'] = 10;
+  process.env['INPUT_LIMIT'] = '3';
   const ip = path.join(__dirname, 'index.js');
   const result = cp.execSync(`node ${ip}`, {env: process.env}).toString();
   console.log(result);
