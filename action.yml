@@ -1,5 +1,8 @@
 name: 'release-matrix-action'
 description: 'GitHub Action to generate matrix using "endoflife-date/release-data" dataset'
+branding:
+  icon: 'tag'
+  color: 'white'
 inputs:
   search:
     description: 'The search keyword for release data'
@@ -13,7 +16,7 @@ inputs:
   limit:
     description: 'Set the limit for the number of releases to output, default: 3'
     required: false
-    default: 3
+    default: "3"
 outputs:
   matrix:
     description: 'The release matrix data'
