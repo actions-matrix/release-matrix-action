@@ -73,11 +73,12 @@ async function run() {
       releases = releases.reverse().splice(0, inputs.limit).reverse()
     }
 
-    const matrix = { version: [] }
-
+    
     if (releases.length === 0) {
       throw new Error("No releases found.")
     }
+    
+    const matrix = { version: [] }
 
     releases.forEach(([ver]) => {
       matrix.version.push(ver)
