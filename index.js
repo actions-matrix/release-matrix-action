@@ -8,7 +8,7 @@ const config = {
 }
 
 const defaults = {
-  is_limit_default: true,
+  is_limit_default: false,
   limit: "3"
 }
 
@@ -55,7 +55,12 @@ async function run() {
       })
       .sort(([a], [b]) => compareVersions(a, b))
 
-    if (!inputs.date && !inputs.version) {
+    if (!inputs.date || !inputs.version) {
+      if (inputs.limit === "") {
+        inputs.limit = defaults.limit
+        defaults.is_limit_default = true
+      }
+    } else {
       if (inputs.limit === "") {
         inputs.limit = defaults.limit
         defaults.is_limit_default = true
