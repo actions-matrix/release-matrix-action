@@ -33,6 +33,19 @@ test('test query=nginx, date=2022', () => {
   delete process.env['INPUT_DATE']
 })
 
+test('test query=nginx, date=2022, limit=5', () => {
+  console.log('test query=nginx, date=2022')
+  process.env['INPUT_SEARCH'] = 'nginx';
+  process.env['INPUT_DATE'] = "2022";
+  process.env['INPUT_LIMIT'] = '5';
+  const ip = path.join(__dirname, 'index.js');
+  const result = cp.execSync(`node ${ip}`, {env: process.env}).toString();
+  console.log(result);
+
+  delete process.env['INPUT_DATE']
+  delete process.env['INPUT_LIMIT']
+})
+
 test('test query=nginx, version=1.22', () => {
   console.log('test query=nginx, version=1.22')
   process.env['INPUT_SEARCH'] = 'nginx';
