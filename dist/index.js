@@ -7111,6 +7111,10 @@ async function run() {
 
     const matrix = { version: [] }
 
+    if (releases.length === 0) {
+      throw new Error("No releases found.")
+    }
+
     releases.forEach(([ver]) => {
       matrix.version.push(ver)
     })
