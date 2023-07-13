@@ -8,6 +8,7 @@ const config = {
 }
 
 const defaults = {
+  is_limit_default: true,
   limit: "3"
 }
 
@@ -59,13 +60,11 @@ async function run() {
 
     if (!inputs.date || !inputs.version) {
       inputs.limit = defaults.limit
-      core.info("The limit input is set to default.")
-    } else {
-      core.info("The limit input is set to custom.")
+      defaults.is_limit_default = true
     }
 
     inputs.limit = parseInt(inputs.limit)
-    core.info(`Set releases limit by: ${inputs.limit}`)
+    core.info(`Set releases limit by: ${inputs.limit} ${defaults.is_limit_default ? "(default)" : ""}`)
     releases = releases.reverse().splice(0, inputs.limit).reverse()
 
     const matrix = { version: [] }
