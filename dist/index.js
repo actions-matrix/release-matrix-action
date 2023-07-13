@@ -7041,6 +7041,7 @@ const config = {
 }
 
 const defaults = {
+  is_limit_default: true,
   limit: "3"
 }
 
@@ -7061,7 +7062,7 @@ async function run() {
       search: core.getInput('search'),
       date: core.getInput('date'),
       version: core.getInput('version'),
-      limit: core.getInput('limit') || defaults.limit,
+      limit: core.getInput('limit'),
     }
 
     if (inputs.search == "") {
@@ -7090,8 +7091,13 @@ async function run() {
       throw new Error("The limit input cannot be zero.")
     }
 
+    if (!inputs.date || !inputs.version) {
+      inputs.limit = defaults.limit
+      defaults.is_limit_default = true
+    }
+
     inputs.limit = parseInt(inputs.limit)
-    core.info(`Set releases limit by: ${inputs.limit}`)
+    core.info(`Set releases limit by: ${inputs.limit} ${defaults.is_limit_default ? "(default)" : ""}`)
     releases = releases.reverse().splice(0, inputs.limit).reverse()
 
     const matrix = { version: [] }
