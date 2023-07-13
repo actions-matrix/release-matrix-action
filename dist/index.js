@@ -7068,6 +7068,7 @@ async function run() {
     if (inputs.search == "") {
       throw new Error("The search input is required.")
     }
+    core.info(`Search for release of: ${inputs.search}`)
 
     const data = await getReleaseData(inputs.search)
 
