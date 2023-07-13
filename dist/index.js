@@ -7088,26 +7088,23 @@ async function run() {
       })
       .sort(([a], [b]) => compareVersions(a, b))
 
-    if (!inputs.date || !inputs.version) {
-      if (inputs.limit === "") {
-        inputs.limit = defaults.limit
-        defaults.is_limit_default = true
-      }
-    } else {
+    if (!inputs.date && !inputs.version) {
       if (inputs.limit === "") {
         inputs.limit = defaults.limit
         defaults.is_limit_default = true
       }
     }
 
-    inputs.limit = parseInt(inputs.limit)
-
-    if (inputs.limit === 0) {
-      throw new Error("The limit input cannot be zero.")
+    if (inputs.limit !== "") {
+      inputs.limit = parseInt(inputs.limit)
+  
+      if (inputs.limit <= 0) {
+        throw new Error("The limit input cannot be less than or equal zero.")
+      }
+  
+      core.info(`Set releases limit by: ${inputs.limit} ${defaults.is_limit_default ? "(default)" : ""}`)
+      releases = releases.reverse().splice(0, inputs.limit).reverse()
     }
-
-    core.info(`Set releases limit by: ${inputs.limit} ${defaults.is_limit_default ? "(default)" : ""}`)
-    releases = releases.reverse().splice(0, inputs.limit).reverse()
 
     const matrix = { version: [] }
 
