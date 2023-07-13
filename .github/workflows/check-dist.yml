@@ -9,6 +9,7 @@ on:
   push:
     branches:
       - main
+      - v*
     paths-ignore:
       - '**.md'
   pull_request:
