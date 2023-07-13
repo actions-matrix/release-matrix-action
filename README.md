@@ -2,7 +2,7 @@
 
 [![units-test](https://github.com/actions-matrix/release-matrix-action/actions/workflows/test.yml/badge.svg)](https://github.com/actions-matrix/release-matrix-action/actions/workflows/test.yml)
 
-GitHub Action to generate matrix using ["endoflife-date/release-data"](https://github.com/endoflife-date/release-data) dataset.
+GitHub Action to generate matrix using [endoflife-date/release-data](https://github.com/endoflife-date/release-data) dataset.
 
 ## Usage
 
