@@ -56,8 +56,10 @@ async function run() {
       .sort(([a], [b]) => compareVersions(a, b))
 
     if (!inputs.date && !inputs.version) {
-      inputs.limit = defaults.limit
-      defaults.is_limit_default = true
+      if (inputs.limit === "") {
+        inputs.limit = defaults.limit
+        defaults.is_limit_default = true
+      }
     }
 
     inputs.limit = parseInt(inputs.limit)
@@ -65,7 +67,7 @@ async function run() {
     if (inputs.limit === 0) {
       throw new Error("The limit input cannot be zero.")
     }
-    
+
     core.info(`Set releases limit by: ${inputs.limit} ${defaults.is_limit_default ? "(default)" : ""}`)
     releases = releases.reverse().splice(0, inputs.limit).reverse()
 
