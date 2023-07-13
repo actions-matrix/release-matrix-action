@@ -27,8 +27,7 @@ async function run() {
     }
 
     if (inputs.search == "") {
-      core.setFailed("The search input is required.")
-      return
+      throw new Error("The search input is required.")
     }
 
     const data = await getReleaseData(inputs.search)
@@ -50,8 +49,7 @@ async function run() {
       .sort(([a], [b]) => compareVersions(a, b))
 
     if (inputs.limit === 0) {
-      core.setFailed("The limit input cannot be zero.")
-      return
+      throw new Error("The limit input cannot be zero.")
     } else if (inputs.limit > 0) {
       core.info(`Limit releases by: ${inputs.limit}`)
       releases = releases.reverse().splice(0, 5).reverse()
