@@ -34,7 +34,7 @@ test('test query=nginx, date=2022', () => {
 })
 
 test('test query=nginx, date=2022, limit=5', () => {
-  console.log('test query=nginx, date=2022')
+  console.log('test query=nginx, date=2022, limit')
   process.env['INPUT_SEARCH'] = 'nginx';
   process.env['INPUT_DATE'] = "2022";
   process.env['INPUT_LIMIT'] = '5';
