@@ -7118,6 +7118,8 @@ async function run() {
     })
 
     core.setOutput("matrix", jsonToMatrix(matrix));
+    core.setOutput("version", jsonToMatrix(matrix.version));
+    
     core.info(`Output: ${jsonToMatrix(matrix)}`)
   } catch (error) {
     core.setFailed(error.message);
