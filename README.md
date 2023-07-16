@@ -54,6 +54,7 @@ jobs:
 ## Outputs
 
 - `matrix`: The matrix of releases
+- `version`: The releases's version
 
 **Example**
 
