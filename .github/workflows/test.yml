@@ -26,11 +26,11 @@ jobs:
         search: nginx
         limit: 10
 
-    - name: Test query=nginx, date=2022
+    - name: Test query=nginx, date=2024
       uses: ./
       with:
         search: nginx
-        date: 2022
+        date: 2024
 
     - name: Test query=nginx, version=1.22
       uses: ./
@@ -38,11 +38,11 @@ jobs:
         search: nginx
         version: 1.22
 
-    - name: Test query=nginx, date=2022, version=1.22
+    - name: Test query=nginx, date=2024, version=1.22
       uses: ./
       with:
         search: nginx
-        date: 2022
+        date: 2024
         version: 1.22
 
   # test action works running from the graph
@@ -54,7 +54,7 @@ jobs:
       uses: ./
       with:
         search: nginx
-        date: 2022
+        date: 2024
     outputs:
       matrix: ${{ steps.release.outputs.matrix }}
 
@@ -64,4 +64,4 @@ jobs:
     strategy:
       matrix: ${{ fromJson(needs.generate.outputs.matrix) }}
     steps:
-      - run: echo "Build ${{ matrix.version }}"
+      - run: echo "Build ${{ matrix.versions }}"
