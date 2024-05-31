@@ -1,19 +1,33 @@
-> [!IMPORTANT]
->
-> The `actions-matrix/release-matrix-action@v1` has now been marked as deprecated.
->
-> The releases JSON format has been changed, so we need to use the specific commit hash `b79b71518d4afaf334fd9633e6d10cb041c0a7ca`.
-> See https://github.com/endoflife-date/release-data/issues/51
-
-# release-matrix-action
+# About
 
 [![units-test](https://github.com/actions-matrix/release-matrix-action/actions/workflows/test.yml/badge.svg)](https://github.com/actions-matrix/release-matrix-action/actions/workflows/test.yml)
 
 GitHub Action to generate matrix using [endoflife-date/release-data](https://github.com/endoflife-date/release-data) dataset.
 
-## Usage
+## Inputs
 
-You can now consume the action by referencing the `v1` branch
+- `search`: The search keyword for release data
+- `date`: Set the filter for the release by date, e.g: 2023-01-01, 2023, >=2023
+- `version`: Set the filter for the release by version, e.g: 1.0
+- `limit`: Set the limit for the number of releases to output
+
+## Outputs
+
+- `matrix`: The matrix of releases
+
+**Example**
+
+```json
+// nginx matrix
+{
+  "releases": [],
+  "versions": [ "1.25.4", "1.25.5", "1.26.0", "1.26.1", "1.27.0" ]
+}
+```
+
+## Example
+
+You can now consume the action by referencing the `v2` branch
 
 ```yaml
 name: Build
@@ -28,7 +42,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - id: release
-        uses: actions-matrix/release-matrix-action@v1
+        uses: actions-matrix/release-matrix-action@v2
         with:
           search: "nginx"
     outputs:
@@ -51,23 +65,6 @@ jobs:
   <img alt="Screenshot" src="https://github.com/actions-matrix/release-matrix-action/assets/4363857/b1fcd735-aad5-420e-a907-fe2a6e255cae">
 </picture>
 
-## Inputs
-
-- `search`: The search keyword for release data
-- `date`: Set the filter for the release by date, e.g: 2023-01-01, 2023
-- `version`: Set the filter for the release by version, e.g: 1.0
-- `limit`: Set the limit for the number of releases to output, default: 3
-
-## Outputs
-
-- `matrix`: The matrix of releases
-- `version`: The release versions
-
-**Example**
-
-```json
-{"version":["1.23.3","1.23.4","1.24.0","1.25.0","1.25.1"]}
-```
 
 ## License
 Licensed under the [MIT License](./LICENSE).
