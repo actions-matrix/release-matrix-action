@@ -30,7 +30,7 @@ jobs:
       uses: ./
       with:
         search: nginx
-        date: 2024
+        date: ">=2024"
 
     - name: Test query=nginx, version=1.22
       uses: ./
@@ -42,7 +42,7 @@ jobs:
       uses: ./
       with:
         search: nginx
-        date: 2024
+        date: ">=2024"
         version: 1.22
 
   # test action works running from the graph
@@ -54,7 +54,7 @@ jobs:
       uses: ./
       with:
         search: nginx
-        date: 2024
+        date: ">=2024"
     outputs:
       matrix: ${{ steps.release.outputs.matrix }}
 
