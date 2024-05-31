@@ -15,8 +15,6 @@ GitHub Action to generate matrix using [endoflife-date/release-data](https://git
 
 - `matrix`: The matrix of releases
 
-**Example**
-
 ```json
 // nginx matrix
 {
@@ -57,7 +55,7 @@ jobs:
       - run: echo "Build ${{ matrix.version }}"
 ```
 
-**Example**
+**Screenshots**
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://github.com/actions-matrix/release-matrix-action/assets/4363857/fc5b4255-d1f4-4334-b2e3-bbb3274bf58a">
