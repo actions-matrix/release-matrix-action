@@ -18,7 +18,6 @@ GitHub Action to generate matrix using [endoflife-date/release-data](https://git
 ```json
 // nginx matrix
 {
-  "releases": [],
   "versions": [ "1.25.4", "1.25.5", "1.26.0", "1.26.1", "1.27.0" ]
 }
 ```
