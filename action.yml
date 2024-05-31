@@ -16,6 +16,10 @@ inputs:
   limit:
     description: 'Set the limit for the number of releases to output, default: 3'
     required: false
+  strict:
+    description: 'Enable strict mode for the search, will throw if no release were found. default: false'
+    required: false
+    default: "false"
 outputs:
   matrix:
     description: 'The release matrix data'
