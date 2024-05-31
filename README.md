@@ -1,3 +1,10 @@
+> [!IMPORTANT]
+>
+> The `actions-matrix/release-matrix-action@v1` has now been marked as deprecated.
+>
+> The releases JSON format has been changed, so we need to use the specific commit hash `b79b71518d4afaf334fd9633e6d10cb041c0a7ca`.
+> See https://github.com/endoflife-date/release-data/issues/51
+
 # release-matrix-action
 
 [![units-test](https://github.com/actions-matrix/release-matrix-action/actions/workflows/test.yml/badge.svg)](https://github.com/actions-matrix/release-matrix-action/actions/workflows/test.yml)
