@@ -82,8 +82,15 @@ async function main() {
     } // if (Object.hasOwnProperty.call(data, key))
   } // for (const key in data)
 
+  // Clean up matrix if does not contain any values
+  for (const key in matrix) {
+    if (matrix[key].length === 0) {
+      delete matrix[key]
+    }
+  }
+
   // Set outputs matrix
-  core.info("matrix:")
+  core.info("Result:")
   core.info("----------------------------------------")
   core.info(JSON.stringify(matrix))
   core.info("----------------------------------------")
