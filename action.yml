@@ -20,6 +20,13 @@ inputs:
     description: 'Enable strict mode for the search, will throw if no release were found. default: false'
     required: false
     default: "false"
+  source-repo:
+    description: 'The source repository to fetch the data from, default: "endoflife-date/release-data"'
+    required: false
+    default: "endoflife-date/release-data"
+  source-branch:
+    description: 'The source branch to fetch the data from, default: "main"'
+    required: false
 outputs:
   matrix:
     description: 'The release matrix data'

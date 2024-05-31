@@ -9620,7 +9620,7 @@ const semdate = __nccwpck_require__(9017)
 
 const defaults = {
   repo: "endoflife-date/release-data",
-  branch: "master",
+  branch: "main",
 }
 
 let is_default_limit = false;

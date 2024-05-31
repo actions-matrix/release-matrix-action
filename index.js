@@ -6,7 +6,7 @@ const semdate = require('./semdate')
 
 const defaults = {
   repo: "endoflife-date/release-data",
-  branch: "master",
+  branch: "main",
 }
 
 let is_default_limit = false;
