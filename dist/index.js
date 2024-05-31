@@ -7035,9 +7035,16 @@ const core = __nccwpck_require__(2186);
 const fetch = __nccwpck_require__(467);
 const { compareVersions } = __nccwpck_require__(4773);
 
+// !!! IMPORTANT !!!
+//
+// The releases JSON format has been changed, so we need to use the specific commit hash
+// See https://github.com/endoflife-date/release-data/issues/51
+//
+// The actions-matrix/release-matrix-action@v1 has now been marked as deprecated and will be archived soon.
+
 const config = {
   release_data: "endoflife-date/release-data",
-  tag: "master"
+  tag: "b79b71518d4afaf334fd9633e6d10cb041c0a7ca"
 }
 
 const defaults = {
