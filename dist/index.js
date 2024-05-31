@@ -9697,6 +9697,10 @@ async function main() {
   } // for (const key in data)
 
   // Set outputs matrix
+  core.info("matrix:")
+  core.info("----------------------------------------")
+  core.info(JSON.stringify(matrix))
+  core.info("----------------------------------------")
   core.setOutput("matrix", JSON.stringify(matrix));
 }
 
