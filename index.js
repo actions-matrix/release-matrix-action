@@ -42,9 +42,9 @@ async function main() {
     core.info(`Set filter by version: ${inputs.version}`)
   }
 
-  // Prepare outputs
+  // Prepare outputs matrix
   // Adopt the new releases JSON fromat, https://github.com/endoflife-date/release-data/issues/51
-  const outputs = { releases: [], versions: [], }
+  const matrix = { releases: [], versions: [], }
 
   // Process release data
   for (const key in data) {
@@ -78,12 +78,12 @@ async function main() {
       }
 
       // Add result to output
-      outputs[key] = result
+      matrix[key] = result
     } // if (Object.hasOwnProperty.call(data, key))
   } // for (const key in data)
 
-  core.setOutput("releases", JSON.stringify(outputs.releases));
-  core.setOutput("versions", JSON.stringify(outputs.versions));
+  // Set outputs matrix
+  core.setOutput("matrix", JSON.stringify(matrix));
 }
 
 main()
