@@ -2,9 +2,16 @@ const core = require('@actions/core');
 const fetch = require('node-fetch');
 const { compareVersions } = require('compare-versions');
 
+// !!! IMPORTANT !!!
+//
+// The releases JSON format has been changed, so we need to use the specific commit hash
+// See https://github.com/endoflife-date/release-data/issues/51
+//
+// The actions-matrix/release-matrix-action@v1 has now been marked as deprecated and will be archived soon.
+
 const config = {
   release_data: "endoflife-date/release-data",
-  tag: "master"
+  tag: "b79b71518d4afaf334fd9633e6d10cb041c0a7ca"
 }
 
 const defaults = {
