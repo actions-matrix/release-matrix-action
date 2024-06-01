@@ -20,7 +20,9 @@ const defaults = {
 }
 
 async function getReleaseData(query) {
-  const res = await fetch(`https://raw.githubusercontent.com/${config.release_data}/${config.tag}/releases/${query}.json`)
+  const url = `https://raw.githubusercontent.com/${config.release_data}/${config.tag}/releases/${query}.json`
+  core.info("Fetch release data from: " + url)
+  const res = await fetch()
   const data = await res.json()
   return data
 }
