@@ -30,16 +30,18 @@ function jsonToMatrix(json) {
 }
 
 // most @actions toolkit packages have async methods
-(async function () {
+async function run() {
   try {
     const inputs = {
-      search: core.getInput('search', { required: true }),
+      search: core.getInput('search'),
       date: core.getInput('date'),
       version: core.getInput('version'),
       limit: core.getInput('limit'),
-      strict: core.getInput('strict') ?? "false"
     }
 
+    if (inputs.search == "") {
+      throw new Error("The search input is required.")
+    }
     core.info(`Search for release of: ${inputs.search}`)
 
     const data = await getReleaseData(inputs.search)
@@ -79,18 +81,15 @@ function jsonToMatrix(json) {
     }
 
     
+    if (releases.length === 0) {
+      throw new Error("No releases found.")
+    }
+    
     const matrix = { version: [] }
 
-    if (releases.length > 0) {
-      releases.forEach(([ver]) => {
-        matrix.version.push(ver)
-      })
-    } else {
-      if (inputs.strict === "true") {
-        throw new Error("No releases found.")
-      }
-      core.warning("No releases found.")
-    }
+    releases.forEach(([ver]) => {
+      matrix.version.push(ver)
+    })
 
     core.setOutput("matrix", jsonToMatrix(matrix));
     core.setOutput("version", jsonToMatrix(matrix.version));
@@ -99,4 +98,6 @@ function jsonToMatrix(json) {
   } catch (error) {
     core.setFailed(error.message);
   }
-})()
+}
+
+run()
