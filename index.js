@@ -83,26 +83,27 @@ async function main() {
     } // if (Object.hasOwnProperty.call(data, key))
   } // for (const key in data)
 
-  // Clean up matrix if does not contain any values
-  for (const key in matrix) {
-    if (matrix[key].length === 0) {
-      delete matrix[key]
-    }
-  }
-
   // Set outputs matrix
   if (matrix.releases.length && matrix.versions.length) {
+    // Check if matrix.releases is not empty
+    if (matrix.releases.length) {
+      core.setOutput("releases", JSON.stringify(matrix.releases));
+    } else {
+      delete matrix.releases
+    }
+
+    // Check if matrix.versions is not empty
+    if (matrix.versions.length) {
+      core.setOutput("versions", JSON.stringify(matrix.versions));
+    } else {
+      delete matrix.versions
+    }
+
     core.info("Result:")
     core.info("----------------------------------------")
     core.info(JSON.stringify(matrix))
     core.info("----------------------------------------")
     core.setOutput("matrix", JSON.stringify(matrix));
-    if (matrix.releases.length) {
-      core.setOutput("releases", JSON.stringify(matrix.releases));
-    }
-    if (matrix.versions.length) {
-      core.setOutput("versions", JSON.stringify(matrix.versions));
-    }
   } else {
     core.error([
       "No result found for the given query, please check the input values or the source data.",
