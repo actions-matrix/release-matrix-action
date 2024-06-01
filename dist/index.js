@@ -7064,12 +7064,12 @@ function jsonToMatrix(json) {
 
 // most @actions toolkit packages have async methods
 async function run() {
-  core.warning([
-    " The `actions-matrix/release-matrix-action@v1` has now been marked as deprecated.",
+  [
+    "The `actions-matrix/release-matrix-action@v1` has now been marked as deprecated.",
     "",
     "The releases JSON format has been changed, so we need to use the specific commit hash `b79b71518d4afaf334fd9633e6d10cb041c0a7ca`.",
     "See https://github.com/endoflife-date/release-data/issues/51",
-  ].join("\n"))
+  ].forEach(core.warning)
 
   try {
     const inputs = {
