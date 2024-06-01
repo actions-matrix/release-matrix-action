@@ -84,7 +84,7 @@ async function main() {
   } // for (const key in data)
 
   // Set outputs matrix
-  if (matrix.releases.length && matrix.versions.length) {
+  if (matrix.releases.length || matrix.versions.length) {
     // Check if matrix.releases is not empty
     if (matrix.releases.length) {
       core.setOutput("releases", JSON.stringify(matrix.releases));
