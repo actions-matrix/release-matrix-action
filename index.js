@@ -32,6 +32,7 @@ async function main() {
   )
   const url = `https://raw.githubusercontent.com/${source.repo}/${source.branch}/releases/${inputs.search}.json`
   const data = await fetch(url).then(res => res.json())
+  core.info(`Fetched data from ${url}`)
 
   // Filter by date
   if (inputs.date) {
@@ -84,25 +85,28 @@ async function main() {
   } // for (const key in data)
 
   // Set outputs matrix
+  core.info("Result:")
+  core.info("----------------------------------------")
+  core.info(JSON.stringify(matrix, null, 2))
+  core.info("----------------------------------------")
+
   if (matrix.releases.length || matrix.versions.length) {
     // Check if matrix.releases is not empty
     if (matrix.releases.length) {
       core.setOutput("releases", JSON.stringify(matrix.releases));
     } else {
+      core.info("The `matrix.releases` data is empty and will be omitted.")
       delete matrix.releases
     }
 
     // Check if matrix.versions is not empty
     if (matrix.versions.length) {
+      core.info("The `matrix.versions` data is empty and will be omitted.")
       core.setOutput("versions", JSON.stringify(matrix.versions));
     } else {
       delete matrix.versions
     }
 
-    core.info("Result:")
-    core.info("----------------------------------------")
-    core.info(JSON.stringify(matrix))
-    core.info("----------------------------------------")
     core.setOutput("matrix", JSON.stringify(matrix));
   } else {
     core.error([
