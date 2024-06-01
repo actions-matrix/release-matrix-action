@@ -29,9 +29,11 @@ inputs:
     required: false
 outputs:
   matrix:
-    description: 'The release matrix data'
-  version:
-    description:  'The release versions'
+    description: 'The `matrix` data'
+  releases:
+    description:  'The `matrix.release`` data'
+  versions:
+    description:  'The `matrix.versions` data'
 runs:
   using: 'node20'
   main: 'dist/index.js'
