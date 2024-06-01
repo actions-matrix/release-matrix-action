@@ -9657,7 +9657,8 @@ async function main() {
       ? `Searching for "${inputs.search}" from "${source.repo}@${source.branch}"...`
     : `Searching for "${inputs.search}" released in "${inputs.date}" from "${source.repo}@${source.branch}"...`
   )
-  const data = await fetch(`https://raw.githubusercontent.com/${source.repo}/${source.branch}/releases/${inputs.search}.json`).then(res => res.json())
+  const url = `https://raw.githubusercontent.com/${source.repo}/${source.branch}/releases/${inputs.search}.json`
+  const data = await fetch(url).then(res => res.json())
 
   // Filter by date
   if (inputs.date) {
@@ -9717,11 +9718,24 @@ async function main() {
   }
 
   // Set outputs matrix
-  core.info("Result:")
-  core.info("----------------------------------------")
-  core.info(JSON.stringify(matrix))
-  core.info("----------------------------------------")
-  core.setOutput("matrix", JSON.stringify(matrix));
+  if (matrix.releases.length && matrix.versions.length) {
+    core.info("Result:")
+    core.info("----------------------------------------")
+    core.info(JSON.stringify(matrix))
+    core.info("----------------------------------------")
+    core.setOutput("matrix", JSON.stringify(matrix));
+    if (matrix.releases.length) {
+      core.setOutput("releases", JSON.stringify(matrix.releases));
+    }
+    if (matrix.versions.length) {
+      core.setOutput("versions", JSON.stringify(matrix.versions));
+    }
+  } else {
+    core.error([
+      "No result found for the given query, please check the input values or the source data.",
+      `Visit ${url} to check the source data.`,
+    ].join("\n"))
+  }
 }
 
 main()
