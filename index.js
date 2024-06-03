@@ -52,7 +52,7 @@ async function main() {
   for (const key in data) {
     if (Object.hasOwnProperty.call(data, key)) {
       const targetData = data[key]
-      const result = Object.entries(targetData)
+      let result = Object.entries(targetData)
         // Check if date is satisfied by the input date, if set
         .filter(([version, item]) => {
           if (!inputs.date) return true
@@ -74,9 +74,10 @@ async function main() {
         inputs.limit = parseInt(inputs.limit)
         if (inputs.limit < 0) {
           core.error("Limit should be a positive integer")
+          return
         }
         core.info(`Set "${key}" limit to ${inputs.limit}`)
-        result.splice(0, inputs.limit)
+        result = result.splice(0, inputs.limit)
       }
 
       // Add result to output
@@ -101,15 +102,15 @@ async function main() {
 
     // Check if matrix.versions is not empty
     if (matrix.versions.length) {
-      core.info("The `matrix.versions` data is empty and will be omitted.")
       core.setOutput("versions", JSON.stringify(matrix.versions));
     } else {
+      core.info("The `matrix.versions` data is empty and will be omitted.")
       delete matrix.versions
     }
 
     core.setOutput("matrix", JSON.stringify(matrix));
   } else {
-    core.error([
+    core.setFailed([
       "No result found for the given query, please check the input values or the source data.",
       `Visit ${url} to check the source data.`,
     ].join("\n"))
