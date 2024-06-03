@@ -31,7 +31,7 @@ async function main() {
     : `Searching for "${inputs.search}" released in "${inputs.date}" from "${source.repo}@${source.branch}"...`
   )
   const url = `https://raw.githubusercontent.com/${source.repo}/${source.branch}/releases/${inputs.search}.json`
-  const data = await fetch(url).then(res => res.json())
+  const releasesData = await fetch(url).then(res => res.json())
   core.info(`Fetched data from ${url}`)
 
   // Filter by date
@@ -49,71 +49,93 @@ async function main() {
   const matrix = { releases: [], versions: [], }
 
   // Process release data
-  for (const key in data) {
-    if (Object.hasOwnProperty.call(data, key)) {
-      const targetData = data[key]
-      let result = Object.entries(targetData)
-        // Check if date is satisfied by the input date, if set
-        .filter(([version, item]) => {
-          if (!inputs.date) return true
-          const tmpDate = (item.date || item.releaseDate) || ""
-          if (!tmpDate) return false
-          return semdate.satisfies(tmpDate, inputs.date)
-        })
-        // Check if version is satisfied by the input version, if set
-        .filter(([version, item]) => {
-          if (!inputs.version) return true
-          return semver.satisfies(version, inputs.version)
-        })
-        // Sort by version
-        .sort(([a], [b]) => compareVersions(a, b))
-        .map(([version]) => version)
+  for (const key in releasesData) {
+    if (Object.hasOwnProperty.call(releasesData, key)) {
+      await core.group(`Processing "${key}" data...`, () => {
+        const releases = releasesData[key]
+        let result = []
+        for (const iterator of Object.entries(releases)) {
+          const [version, release] = iterator
 
-      // Limit the result, if limit is set
-      if (inputs.limit) {
-        inputs.limit = parseInt(inputs.limit)
-        if (inputs.limit < 0) {
-          core.error("Limit should be a positive integer")
-          return
+          // Check if date is satisfied by the input date, if set
+          if (inputs.date) {
+            const tmpDate = (release.date || release.releaseDate) || ""
+            if (!tmpDate) return false
+            if (!semdate.satisfies(tmpDate, inputs.date)) {
+              continue
+            }
+          }
+
+          // Check if version is satisfied by the input version, if set
+          if (inputs.version) {
+            if (!semver.satisfies(version, inputs.version)) {
+              continue
+            }
+          }
+
+          // Add to result
+          result.push(iterator)
+
+          // Log the message
+          core.info(`- The ${key} '${JSON.stringify(release)}' satisfies the queries.`)
         }
-        core.info(`Set "${key}" limit to ${inputs.limit}`)
-        result = result.reverse().splice(0, inputs.limit).reverse()
-      }
 
-      // Add result to output
-      matrix[key] = result
+        // Limit the result, if limit is set
+        if (inputs.limit) {
+          inputs.limit = parseInt(inputs.limit)
+          if (inputs.limit < 0) {
+            core.error("Limit should be a positive integer")
+            return
+          }
+          core.info(`Set "${key}" limit to ${inputs.limit}`)
+          result = result.reverse().splice(0, inputs.limit).reverse()
+        }
+  
+        // Add result to output
+        matrix[key] = result
+      })
     } // if (Object.hasOwnProperty.call(data, key))
   } // for (const key in data)
 
-  // Set outputs matrix
-  core.info("Result:")
-  core.info("----------------------------------------")
-  core.info(JSON.stringify(matrix, null, 2))
-  core.info("----------------------------------------")
-
-  if (matrix.releases.length || matrix.versions.length) {
-    // Check if matrix.releases is not empty
-    if (matrix.releases.length) {
-      core.setOutput("releases", JSON.stringify(matrix.releases));
-    } else {
-      core.info("The `matrix.releases` data is empty and will be omitted.")
-      delete matrix.releases
-    }
-
-    // Check if matrix.versions is not empty
-    if (matrix.versions.length) {
-      core.setOutput("versions", JSON.stringify(matrix.versions));
-    } else {
-      core.info("The `matrix.versions` data is empty and will be omitted.")
-      delete matrix.versions
-    }
-
-    core.setOutput("matrix", JSON.stringify(matrix));
-  } else {
+  if (matrix.releases.length && matrix.versions.length) {
     core.setFailed([
       "No result found for the given query, please check the input values or the source data.",
       `Visit ${url} to check the source data.`,
     ].join("\n"))
+    return
+  }
+
+  // Post-process the matrix
+  for (const key in matrix) {
+    if (Object.hasOwnProperty.call(matrix, key)) {
+      await core.group(`Post-processing for "${key}"...`, async () => {
+        const items = matrix[key]
+        if (items.length === 0) {
+          core.info(`- Remove the "${key}" from the matrix to avoid empty arrays which will cause the job to fail`)
+          delete matrix[key]
+        } else {
+          core.info("- Removing duplicates and sorting the versions")
+          matrix[key] = Array
+            .from(matrix[key])
+            .map(([version]) => version) // Map the result version only
+            .sort(compareVersions) // Sort the versions
+
+          matrix[key] = Array.from(new Set(matrix[key])) // Remove duplicates
+        }
+      })
+    }
+  }
+
+  // Show a summary of the matrix
+  await core.group("Matrix summary", () => core.info(JSON.stringify(matrix, null, 2)))
+
+  // Set the output variables
+  core.setOutput("matrix", JSON.stringify(matrix));
+  if ('releases' in matrix) {
+    core.setOutput("releases", JSON.stringify(matrix.releases));
+  }
+  if ('versions' in matrix) {
+    core.setOutput("versions", JSON.stringify(matrix.versions));
   }
 }
 
