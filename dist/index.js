@@ -9704,7 +9704,7 @@ async function main() {
           return
         }
         core.info(`Set "${key}" limit to ${inputs.limit}`)
-        result = result.splice(0, inputs.limit)
+        result = result.reverse().splice(0, inputs.limit).reverse()
       }
 
       // Add result to output
