@@ -80,17 +80,6 @@ async function main() {
           core.info(`- The ${key} '${JSON.stringify(release)}' satisfies the queries.`)
         }
 
-        // Limit the result, if limit is set
-        if (inputs.limit) {
-          inputs.limit = parseInt(inputs.limit)
-          if (inputs.limit < 0) {
-            core.error("Limit should be a positive integer")
-            return
-          }
-          core.info(`Set "${key}" limit to ${inputs.limit}`)
-          result = result.reverse().splice(0, inputs.limit).reverse()
-        }
-  
         // Add result to output
         matrix[key] = result
       })
@@ -121,6 +110,17 @@ async function main() {
             .sort(compareVersions) // Sort the versions
 
           matrix[key] = Array.from(new Set(matrix[key])) // Remove duplicates
+
+          // Limit the result, if limit is set
+          if (inputs.limit) {
+            inputs.limit = parseInt(inputs.limit)
+            if (inputs.limit < 0) {
+              core.error("Limit should be a positive integer")
+              return
+            }
+            core.info(`Set "${key}" limit to ${inputs.limit}`)
+            matrix[key] = matrix[key].reverse().splice(0, inputs.limit).reverse()
+          }
         }
       })
     }
