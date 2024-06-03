@@ -118,7 +118,7 @@ async function main() {
               core.error("Limit should be a positive integer")
               return
             }
-            core.info(`Set "${key}" limit to ${inputs.limit}`)
+            core.info(`- Configure limit to ${inputs.limit}`)
             matrix[key] = matrix[key].reverse().splice(0, inputs.limit).reverse()
           }
         }
